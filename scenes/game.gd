@@ -4,18 +4,20 @@ extends Node
 @onready var frab: CharacterBody2D = $Frab
 @onready var parallax_2d: Parallax2D = $Parallax2D
 @onready var signs: Node2D = $Signs
-@onready var hurt_timer: Timer = $Node/HurtTimer
-@onready var pill_timer: Timer = $Node/PillTimer
+@onready var hurt_timer: Timer = $Timer/HurtTimer
+@onready var pill_timer: Timer = $Timer/PillTimer
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
+
+signal pill_number_update(pill_number: int)
 
 var isPilled: bool = false;
-var checkpoint: Vector2 = Vector2(0, -16);
+var checkpoint: Vector2 = Vector2(240, 350);
 var pill_time = 10;
 var use_count = 5;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
-
+	pill_number_update.emit(use_count);
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -33,11 +35,13 @@ func take_pill() -> void:
 		if sign is Sign:
 			sign.get_node("Real").visible = true;
 			sign.get_node("Normal").visible = false;
+	animation_player.play("flash");
 	print("Pilled")
 	if use_count > 0:
 		pill_timer.start(pill_time);
 	use_count -= 1;
 	pill_time += 4;
+	pill_number_update.emit(use_count);
 	
 func wear_out_pill() -> void:
 	tilemap.get_child(0).visible = false;
@@ -56,7 +60,12 @@ func _on_frab_is_hurt() -> void:
 	hurt_timer.start();
 
 func _on_hurt_timer_timeout() -> void:
-	get_tree().reload_current_scene()
+	frab.revive(checkpoint);
 	
 func _on_pill_timer_timeout() -> void:
 	wear_out_pill();
+
+func _on_pill_button_pressed() -> void:
+	if (!isPilled):
+		take_pill();
+		isPilled = !isPilled;
