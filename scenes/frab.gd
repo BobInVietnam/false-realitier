@@ -2,6 +2,7 @@ class_name Frab extends CharacterBody2D
 
 enum PlayerState {OK, PILL, NOK}
 signal isHurt;
+signal set_checkpoint(position: Vector2);
 
 const SPEED = 100.0
 const JUMP_VELOCITY = -250.0
@@ -78,6 +79,9 @@ func hurt() -> void:
 func revive(checkpoint: Vector2) -> void:
 	position = checkpoint;
 	pstate = PlayerState.OK;
+	
+func save_checkpoint(position: Vector2) -> void:
+	set_checkpoint.emit(position);
 
 func _on_killzone_body_entered(body: Node2D) -> void:
 	hurt();

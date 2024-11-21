@@ -13,7 +13,7 @@ var enter_side: int = 1;
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body is Frab:
 		fly_away = true;
-		collision_shape_2d.disabled = true;
+		collision_shape_2d.disabled = true ;
 		animated_sprite_2d.play("fly")
 		enter_side = sign(position.x - body.position.x);
 		if enter_side > 0:

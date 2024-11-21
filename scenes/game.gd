@@ -7,6 +7,7 @@ extends Node
 @onready var hurt_timer: Timer = $Timer/HurtTimer
 @onready var pill_timer: Timer = $Timer/PillTimer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var texture_progress_bar: TextureProgressBar = $UI/TextureProgressBar
 
 signal pill_number_update(pill_number: int)
 
@@ -25,6 +26,7 @@ func _process(delta: float) -> void:
 		if (!isPilled):
 			take_pill();
 			isPilled = !isPilled;
+	texture_progress_bar.value = 100 * (pill_timer.time_left / pill_timer.wait_time);
 
 func take_pill() -> void:
 	tilemap.get_child(1).visible = false;
@@ -69,3 +71,8 @@ func _on_pill_button_pressed() -> void:
 	if (!isPilled):
 		take_pill();
 		isPilled = !isPilled;
+
+
+func _on_frab_set_checkpoint(position: Vector2) -> void:
+	checkpoint = position;
+	print("Checkpoint saved")
