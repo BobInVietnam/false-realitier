@@ -76,9 +76,12 @@ func hurt() -> void:
 		animated_sprite_2d.animation = "trip_real";
 		isHurt.emit();
 
-func revive(checkpoint: Vector2) -> void:
+func revive(checkpoint: Vector2, pilled: bool) -> void:
 	position = checkpoint;
-	pstate = PlayerState.OK;
+	if pilled:
+		pstate = PlayerState.PILL;
+	else:
+		pstate = PlayerState.OK;
 	
 func save_checkpoint(position: Vector2) -> void:
 	set_checkpoint.emit(position);

@@ -8,13 +8,14 @@ extends Node
 @onready var pill_timer: Timer = $Timer/PillTimer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var texture_progress_bar: TextureProgressBar = $UI/TextureProgressBar
+@onready var hurt: AudioStreamPlayer = $Sound/Hurt
 
 signal pill_number_update(pill_number: int)
 
-var isPilled: bool = false;
-var checkpoint: Vector2 = Vector2(240, 350);
+var is_pilled: bool = false;
+var checkpoint: Vector2 = Vector2(195, 580);
 var pill_time = 10;
-var use_count = 5;
+var use_count = 6;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -23,9 +24,9 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("pill"):
-		if (!isPilled):
-			take_pill();
-			isPilled = !isPilled;
+		if (!is_pilled):
+			animation_player.play("start_pill")
+			is_pilled = !is_pilled;
 	texture_progress_bar.value = 100 * (pill_timer.time_left / pill_timer.wait_time);
 
 func take_pill() -> void:
@@ -39,7 +40,7 @@ func take_pill() -> void:
 			sign.get_node("Normal").visible = false;
 	animation_player.play("flash");
 	print("Pilled")
-	if use_count > 0:
+	if use_count >= 1:
 		pill_timer.start(pill_time);
 	use_count -= 1;
 	pill_time += 4;
@@ -55,23 +56,23 @@ func wear_out_pill() -> void:
 			sign.get_node("Real").visible = false;
 			sign.get_node("Normal").visible = true;
 	print("Not pilled")
-	isPilled = false;
+	is_pilled = false;
 
 func _on_frab_is_hurt() -> void:
 	print("Nooooooo");
+	hurt.play();
 	hurt_timer.start();
 
 func _on_hurt_timer_timeout() -> void:
-	frab.revive(checkpoint);
+	frab.revive(checkpoint, is_pilled);
 	
 func _on_pill_timer_timeout() -> void:
-	wear_out_pill();
+	animation_player.play("end_pill")
 
 func _on_pill_button_pressed() -> void:
-	if (!isPilled):
-		take_pill();
-		isPilled = !isPilled;
-
+	if (!is_pilled):
+		animation_player.play("start_pill")
+		is_pilled = !is_pilled;
 
 func _on_frab_set_checkpoint(position: Vector2) -> void:
 	checkpoint = position;

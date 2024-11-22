@@ -1,18 +1,49 @@
-[gd_scene load_steps=22 format=3 uid="uid://dlntpm6g874d5"]
+[gd_scene load_steps=28 format=3 uid="uid://dlntpm6g874d5"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_1d2ei"]
 [ext_resource type="PackedScene" uid="uid://dloqxds0o1xhx" path="res://scenes/frab.tscn" id="1_x22vj"]
 [ext_resource type="PackedScene" uid="uid://bgiy2lvqndgn2" path="res://scenes/tilemap.tscn" id="2_vm56o"]
 [ext_resource type="Texture2D" uid="uid://isyebqe8cjmc" path="res://bg.jpg" id="4_jjr3w"]
 [ext_resource type="PackedScene" uid="uid://da1iq8ujqayk3" path="res://scenes/checkpoint.tscn" id="5_kxj2a"]
-[ext_resource type="PackedScene" uid="uid://d21rmqeohya44" path="res://scenes/sign.tscn" id="5_rp4rd"]
-[ext_resource type="PackedScene" uid="uid://dmxetnochjt6n" path="res://scenes/sign_bird.tscn" id="6_x3w0y"]
+[ext_resource type="PackedScene" uid="uid://d21rmqeohya44" path="res://scenes/sign.tscn" id="6_lag7p"]
 [ext_resource type="Texture2D" uid="uid://besuevoj472b8" path="res://sprites32.png" id="7_dpsoa"]
 [ext_resource type="Script" path="res://scenes/ui.gd" id="7_gu28s"]
 [ext_resource type="LabelSettings" uid="uid://bhb5xnjyy6acr" path="res://scenes/new_label_settings.tres" id="9_23ytu"]
 [ext_resource type="LabelSettings" uid="uid://ifkvq1liip2e" path="res://scenes/label_settings_white.tres" id="9_klx32"]
 [ext_resource type="Texture2D" uid="uid://cc224vxvpjxbu" path="res://npchatbox.png" id="10_rea7c"]
 [ext_resource type="Texture2D" uid="uid://crufoen105ox2" path="res://progress_bar.png" id="13_xjn6n"]
+[ext_resource type="PackedScene" uid="uid://dmxetnochjt6n" path="res://scenes/sign_bird.tscn" id="13_y3tjy"]
+[ext_resource type="AudioStream" uid="uid://du8pep84d00la" path="res://atmospheric-metallic-swipe-19-196792.mp3" id="14_6wv8t"]
+[ext_resource type="AudioStream" uid="uid://g3hhxwwi0cm8" path="res://reverse-cymbal-swell-3-185073.mp3" id="15_4f44k"]
+[ext_resource type="AudioStream" uid="uid://chsujyr5s8b40" path="res://analog-appliance-button-15-186961.mp3" id="15_6gefo"]
+[ext_resource type="AudioStream" uid="uid://44wvyjptyjao" path="res://baby-squeak-toy-2-183912.mp3" id="17_hla1j"]
+
+[sub_resource type="Animation" id="Animation_vxajj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = false
+tracks/1/path = NodePath("../../Sound/StartEffect:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_c0qva"]
 resource_name = "flash"
@@ -29,28 +60,75 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_vxajj"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_ujsby"]
+resource_name = "start_pill"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"take_pill"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../Sound/StartEffect:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_5dwkp"]
+resource_name = "end_pill"
+length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:color")
+tracks/0/path = NodePath("../../Sound/EndEffect:playing")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(3.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"wear_out_pill"
+}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v0lsg"]
 _data = {
 "RESET": SubResource("Animation_vxajj"),
-"flash": SubResource("Animation_c0qva")
+"end_pill": SubResource("Animation_5dwkp"),
+"flash": SubResource("Animation_c0qva"),
+"start_pill": SubResource("Animation_ujsby")
 }
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mvbh2"]
+distance = -17.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uo3yf"]
 atlas = ExtResource("7_dpsoa")
@@ -79,12 +157,12 @@ libraries = {
 
 [node name="Frab" parent="." instance=ExtResource("1_x22vj")]
 z_index = 10
-position = Vector2(244, 356)
+position = Vector2(196, 570)
 
 [node name="Camera2D" type="Camera2D" parent="Frab"]
 offset = Vector2(0, -32)
 zoom = Vector2(4, 4)
-limit_bottom = 514
+limit_bottom = 716
 position_smoothing_enabled = true
 position_smoothing_speed = 15.0
 drag_vertical_enabled = true
@@ -93,7 +171,7 @@ drag_bottom_margin = 0.1
 
 [node name="Tilemap" parent="." instance=ExtResource("2_vm56o")]
 z_index = 5
-position = Vector2(243, 404)
+position = Vector2(194, 627)
 metadata/_edit_lock_ = true
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
@@ -103,54 +181,78 @@ repeat_size = Vector2(1024, 0)
 metadata/_edit_lock_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
-position = Vector2(337, -120)
+position = Vector2(337, -16)
 texture = ExtResource("4_jjr3w")
 
 [node name="Checkpoints" type="Node2D" parent="."]
 
 [node name="Checkpoint" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
-position = Vector2(252, 370)
-
-[node name="Checkpoint2" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
-position = Vector2(756, 211)
+position = Vector2(308, 593)
 
 [node name="Signs" type="Node2D" parent="."]
 z_index = 7
 
-[node name="Sign" parent="Signs" instance=ExtResource("5_rp4rd")]
-position = Vector2(293, 370)
-normal_string = "Hello to the game! Dodge the bushes if you don't wanna get hurt!"
-alt_string = "There is nothing there."
+[node name="Sign" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(260, 592)
+normal_string = "Hey child! You just woke up right? It's time to explore the world. You have a piece of paper to help you with the journey. Read it. Touch the picnic table to setup a checkpoint for you. Good luck!"
+alt_string = "You woke up. A faint headache knocks you out of the sleepy feeling. What you are seeing is reality. Hardship is ahead, but you feel like you must go. "
 
-[node name="Sign2" parent="Signs" instance=ExtResource("5_rp4rd")]
-position = Vector2(522, 354)
-normal_string = "Look at the birds and the flowers. What kind of tiles should you avoid?"
-alt_string = "In this mode, you need none of those. You see the truth."
+[node name="Sign2" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(420, 593)
+normal_string = "Don't fall down! It will hurt."
+alt_string = "Don't fall down."
+
+[node name="Sign3" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(612, 481)
+normal_string = " Go right. It's a far journey ahead."
+alt_string = "Go right."
+
+[node name="Sign4" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(259, 401)
+normal_string = "Nothing here apart from the view. Hehe."
+alt_string = "The sky is dimmed by the smoke from the burning debris. The hills were covered with a greenish brown color from dead vegetation. Terrible things have happened here. You are lost. What you have to do is find your way home."
+
+[node name="Sign5" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(931, 579)
+normal_string = "You are stuck..."
+alt_string = "You have no option but jump."
+
+[node name="Sign6" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(1059, 433)
+normal_string = "Beware, something's hiding behind that!"
+alt_string = "Common sense tells you not to touch the thorny bush."
+
+[node name="Sign7" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(1284, 416)
+normal_string = "Dodge that rock again!"
+alt_string = "Again, you dodge the bush."
+
+[node name="Sign8" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(1157, 528)
+normal_string = "So many rocks...Still, follow the arrow."
+alt_string = "You feel like you should jump inon the tile the arrows are pointing at."
+
+[node name="Sign9" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(1668, 529)
+normal_string = "Danger ahead. But you can use the special candy in your pocket. Your favourite treat! Somehow it will help you!"
+alt_string = "You see that the crows only land on where there isn't danger. You see a pattern."
 
 [node name="Birds" type="Node2D" parent="."]
 
-[node name="Sign_Bird" parent="Birds" instance=ExtResource("6_x3w0y")]
-position = Vector2(365, 386)
+[node name="Sign_Bird" parent="Birds" instance=ExtResource("13_y3tjy")]
+position = Vector2(1683, 526)
 
-[node name="Sign_Bird2" parent="Birds" instance=ExtResource("6_x3w0y")]
-position = Vector2(628, 337)
+[node name="Sign_Bird2" parent="Birds" instance=ExtResource("13_y3tjy")]
+position = Vector2(1794, 511)
 
-[node name="Sign_Bird3" parent="Birds" instance=ExtResource("6_x3w0y")]
-position = Vector2(704, 256)
-
-[node name="Sign_Bird4" parent="Birds" instance=ExtResource("6_x3w0y")]
-position = Vector2(1044, 221)
-
-[node name="Sign_Bird5" parent="Birds" instance=ExtResource("6_x3w0y")]
-position = Vector2(986, 305)
-
-[node name="Sign_Bird6" parent="Birds" instance=ExtResource("6_x3w0y")]
-position = Vector2(1108, 294)
+[node name="Sign_Bird3" parent="Birds" instance=ExtResource("13_y3tjy")]
+position = Vector2(1906, 512)
 
 [node name="Killzone" type="Area2D" parent="."]
 position = Vector2(442, 514)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
+position = Vector2(3, 160)
 shape = SubResource("WorldBoundaryShape2D_mvbh2")
 
 [node name="Timer" type="Node" parent="."]
@@ -278,6 +380,27 @@ value = 100.0
 nine_patch_stretch = true
 texture_progress = SubResource("AtlasTexture_gr1ev")
 
+[node name="Checkpoint" parent="." instance=ExtResource("5_kxj2a")]
+position = Vector2(802, 417)
+
+[node name="Sound" type="Node" parent="."]
+
+[node name="StartEffect" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("14_6wv8t")
+bus = &"SFX"
+
+[node name="EndEffect" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("15_4f44k")
+bus = &"SFX"
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("15_6gefo")
+bus = &"SFX"
+
+[node name="Hurt" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("17_hla1j")
+bus = &"SFX"
+
 [connection signal="pill_number_update" from="." to="UI" method="_on_game_pill_number_update"]
 [connection signal="isHurt" from="Frab" to="." method="_on_frab_is_hurt"]
 [connection signal="set_checkpoint" from="Frab" to="." method="_on_frab_set_checkpoint"]
@@ -287,6 +410,7 @@ texture_progress = SubResource("AtlasTexture_gr1ev")
 [connection signal="mouse_entered" from="UI/PillButton" to="UI" method="_on_pill_button_mouse_entered"]
 [connection signal="mouse_exited" from="UI/PillButton" to="UI" method="_on_pill_button_mouse_exited"]
 [connection signal="pressed" from="UI/PillButton" to="." method="_on_pill_button_pressed"]
+[connection signal="pressed" from="UI/PillButton" to="UI" method="_on_pill_button_pressed"]
 [connection signal="mouse_entered" from="UI/HelpButton" to="UI" method="_on_help_button_mouse_entered"]
 [connection signal="mouse_exited" from="UI/HelpButton" to="UI" method="_on_help_button_mouse_exited"]
 [connection signal="pressed" from="UI/HelpButton" to="UI" method="_on_help_button_pressed"]

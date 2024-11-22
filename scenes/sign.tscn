@@ -29,6 +29,7 @@ position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_3semc")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+z_index = 20
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
