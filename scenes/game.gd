@@ -9,6 +9,8 @@ extends Node
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var texture_progress_bar: TextureProgressBar = $UI/TextureProgressBar
 @onready var hurt: AudioStreamPlayer = $Sound/Hurt
+@onready var checkpoint_checked: AudioStreamPlayer = $Sound/CheckpointChecked
+@onready var bgm: AudioStreamPlayer = $BGM
 
 signal pill_number_update(pill_number: int)
 
@@ -30,6 +32,7 @@ func _process(delta: float) -> void:
 	texture_progress_bar.value = 100 * (pill_timer.time_left / pill_timer.wait_time);
 
 func take_pill() -> void:
+	bgm.stop();
 	tilemap.get_child(1).visible = false;
 	tilemap.get_child(0).visible = true;
 	parallax_2d.visible = false;
@@ -47,6 +50,7 @@ func take_pill() -> void:
 	pill_number_update.emit(use_count);
 	
 func wear_out_pill() -> void:
+	bgm.play();
 	tilemap.get_child(0).visible = false;
 	tilemap.get_child(1).visible = true;
 	parallax_2d.visible = true;
@@ -76,4 +80,5 @@ func _on_pill_button_pressed() -> void:
 
 func _on_frab_set_checkpoint(position: Vector2) -> void:
 	checkpoint = position;
+	checkpoint_checked.play();
 	print("Checkpoint saved")

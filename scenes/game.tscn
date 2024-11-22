@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dlntpm6g874d5"]
+[gd_scene load_steps=30 format=3 uid="uid://dlntpm6g874d5"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_1d2ei"]
 [ext_resource type="PackedScene" uid="uid://dloqxds0o1xhx" path="res://scenes/frab.tscn" id="1_x22vj"]
@@ -17,6 +17,8 @@
 [ext_resource type="AudioStream" uid="uid://g3hhxwwi0cm8" path="res://reverse-cymbal-swell-3-185073.mp3" id="15_4f44k"]
 [ext_resource type="AudioStream" uid="uid://chsujyr5s8b40" path="res://analog-appliance-button-15-186961.mp3" id="15_6gefo"]
 [ext_resource type="AudioStream" uid="uid://44wvyjptyjao" path="res://baby-squeak-toy-2-183912.mp3" id="17_hla1j"]
+[ext_resource type="AudioStream" uid="uid://bh7ohtlnrgvlt" path="res://90s-game-ui-6-185099.mp3" id="18_f8n3q"]
+[ext_resource type="AudioStream" uid="uid://b2aksdur61iem" path="res://time_for_adventure.mp3" id="18_mrv6l"]
 
 [sub_resource type="Animation" id="Animation_vxajj"]
 length = 0.001
@@ -189,6 +191,12 @@ texture = ExtResource("4_jjr3w")
 [node name="Checkpoint" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
 position = Vector2(308, 593)
 
+[node name="Checkpoint2" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
+position = Vector2(802, 417)
+
+[node name="Checkpoint3" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
+position = Vector2(2356, 481)
+
 [node name="Signs" type="Node2D" parent="."]
 z_index = 7
 
@@ -236,6 +244,16 @@ alt_string = "You feel like you should jump inon the tile the arrows are pointin
 position = Vector2(1668, 529)
 normal_string = "Danger ahead. But you can use the special candy in your pocket. Your favourite treat! Somehow it will help you!"
 alt_string = "You see that the crows only land on where there isn't danger. You see a pattern."
+
+[node name="Sign10" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(2525, 49)
+normal_string = "Hehe, you found a secret! Don't mind the blank space tho. If you do..."
+alt_string = "Without the drug, your mind can't see past the hallucination. The signs and birds you saw earliers weren't real, only a product of imagination. After the ------ incident, the concussion you received amplified your condition. Consuming all the drugs will relieve the symptoms for a long time.But can you cope with the reality?"
+
+[node name="Sign11" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(3436, 305)
+normal_string = "The end of the super short demo!"
+alt_string = "This is the end of the alternate route"
 
 [node name="Birds" type="Node2D" parent="."]
 
@@ -380,9 +398,6 @@ value = 100.0
 nine_patch_stretch = true
 texture_progress = SubResource("AtlasTexture_gr1ev")
 
-[node name="Checkpoint" parent="." instance=ExtResource("5_kxj2a")]
-position = Vector2(802, 417)
-
 [node name="Sound" type="Node" parent="."]
 
 [node name="StartEffect" type="AudioStreamPlayer" parent="Sound"]
@@ -400,6 +415,15 @@ bus = &"SFX"
 [node name="Hurt" type="AudioStreamPlayer" parent="Sound"]
 stream = ExtResource("17_hla1j")
 bus = &"SFX"
+
+[node name="CheckpointChecked" type="AudioStreamPlayer" parent="Sound"]
+stream = ExtResource("18_f8n3q")
+bus = &"SFX"
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("18_mrv6l")
+autoplay = true
+bus = &"Music"
 
 [connection signal="pill_number_update" from="." to="UI" method="_on_game_pill_number_update"]
 [connection signal="isHurt" from="Frab" to="." method="_on_frab_is_hurt"]
