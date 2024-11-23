@@ -12,7 +12,7 @@ func _ready() -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body is Frab:
-		if body.isPilled():
+		if body.is_pilled():
 			label.text = alt_string
 		else:
 			label.text = normal_string

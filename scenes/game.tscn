@@ -1,10 +1,11 @@
-[gd_scene load_steps=30 format=3 uid="uid://dlntpm6g874d5"]
+[gd_scene load_steps=31 format=3 uid="uid://dlntpm6g874d5"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_1d2ei"]
 [ext_resource type="PackedScene" uid="uid://dloqxds0o1xhx" path="res://scenes/frab.tscn" id="1_x22vj"]
 [ext_resource type="PackedScene" uid="uid://bgiy2lvqndgn2" path="res://scenes/tilemap.tscn" id="2_vm56o"]
 [ext_resource type="Texture2D" uid="uid://isyebqe8cjmc" path="res://bg.jpg" id="4_jjr3w"]
 [ext_resource type="PackedScene" uid="uid://da1iq8ujqayk3" path="res://scenes/checkpoint.tscn" id="5_kxj2a"]
+[ext_resource type="Texture2D" uid="uid://coqlikxtr5l5" path="res://bg2.jpg" id="5_vcsqh"]
 [ext_resource type="PackedScene" uid="uid://d21rmqeohya44" path="res://scenes/sign.tscn" id="6_lag7p"]
 [ext_resource type="Texture2D" uid="uid://besuevoj472b8" path="res://sprites32.png" id="7_dpsoa"]
 [ext_resource type="Script" path="res://scenes/ui.gd" id="7_gu28s"]
@@ -47,6 +48,36 @@ tracks/1/keys = {
 "values": [true]
 }
 
+[sub_resource type="Animation" id="Animation_5dwkp"]
+resource_name = "end_pill"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../Sound/EndEffect:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(3.4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"wear_out_pill"
+}]
+}
+
 [sub_resource type="Animation" id="Animation_c0qva"]
 resource_name = "flash"
 tracks/0/type = "value"
@@ -56,10 +87,10 @@ tracks/0/path = NodePath(".:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0.0666667, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(0.783523, 0.783523, 0.783523, 0.847059), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_ujsby"]
@@ -91,36 +122,6 @@ tracks/1/keys = {
 "values": [true]
 }
 
-[sub_resource type="Animation" id="Animation_5dwkp"]
-resource_name = "end_pill"
-length = 4.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../../Sound/EndEffect:playing")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../..")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(3.4),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"wear_out_pill"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v0lsg"]
 _data = {
 "RESET": SubResource("Animation_vxajj"),
@@ -130,7 +131,7 @@ _data = {
 }
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mvbh2"]
-distance = -17.0
+distance = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uo3yf"]
 atlas = ExtResource("7_dpsoa")
@@ -159,7 +160,7 @@ libraries = {
 
 [node name="Frab" parent="." instance=ExtResource("1_x22vj")]
 z_index = 10
-position = Vector2(196, 570)
+position = Vector2(5297, 357)
 
 [node name="Camera2D" type="Camera2D" parent="Frab"]
 offset = Vector2(0, -32)
@@ -182,9 +183,15 @@ scroll_offset = Vector2(175, 376)
 repeat_size = Vector2(1024, 0)
 metadata/_edit_lock_ = true
 
+[node name="Sprite2D2" type="Sprite2D" parent="Parallax2D"]
+position = Vector2(337, -67)
+texture = ExtResource("5_vcsqh")
+metadata/_edit_lock_ = true
+
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
 position = Vector2(337, -16)
 texture = ExtResource("4_jjr3w")
+metadata/_edit_lock_ = true
 
 [node name="Checkpoints" type="Node2D" parent="."]
 
@@ -196,6 +203,12 @@ position = Vector2(802, 417)
 
 [node name="Checkpoint3" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
 position = Vector2(2356, 481)
+
+[node name="Checkpoint4" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
+position = Vector2(3476, 273)
+
+[node name="Checkpoint5" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
+position = Vector2(5205, 353)
 
 [node name="Signs" type="Node2D" parent="."]
 z_index = 7
@@ -238,7 +251,7 @@ alt_string = "Again, you dodge the bush."
 [node name="Sign8" parent="Signs" instance=ExtResource("6_lag7p")]
 position = Vector2(1157, 528)
 normal_string = "So many rocks...Still, follow the arrow."
-alt_string = "You feel like you should jump inon the tile the arrows are pointing at."
+alt_string = "You feel like you should jump in the tile the arrows are pointing at."
 
 [node name="Sign9" parent="Signs" instance=ExtResource("6_lag7p")]
 position = Vector2(1668, 529)
@@ -248,12 +261,40 @@ alt_string = "You see that the crows only land on where there isn't danger. You 
 [node name="Sign10" parent="Signs" instance=ExtResource("6_lag7p")]
 position = Vector2(2525, 49)
 normal_string = "Hehe, you found a secret! Don't mind the blank space tho. If you do..."
-alt_string = "Without the drug, your mind can't see past the hallucination. The signs and birds you saw earliers weren't real, only a product of imagination. After the ------ incident, the concussion you received amplified your condition. Consuming all the drugs will relieve the symptoms for a long time.But can you cope with the reality?"
+alt_string = "Without the drug, your mind can't see past the hallucination. The signs and birds you saw earliers weren't real, only a product of imagination. After the ------ incident, the concussion you received amplified your condition. Consuming all the drugs will relieve the symptoms for a long time. But can you cope with reality?"
 
 [node name="Sign11" parent="Signs" instance=ExtResource("6_lag7p")]
-position = Vector2(3436, 305)
-normal_string = "The end of the super short demo!"
-alt_string = "This is the end of the alternate route"
+position = Vector2(3460, 273)
+normal_string = "Birds are landing on big rocks. What gives? By the way, some trees look odd."
+alt_string = "You saw burning debris. Of course you wouldn't touch that."
+
+[node name="Sign12" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(4077, 145)
+monitoring = false
+normal_string = "Hehe,  you got here, but what else can you do?"
+alt_string = "You remembered. You have always been seeing things that are not real, due to a slight abnomality in your brain. Even things that can hurt you don't seem that dangerous anymore, and you hurt yourself time to time. Your perents were concerned, and they brought you to the doctor, who gave you the pill bottle to ease the hallucination. Since then, it has become a part of you."
+
+[node name="Sign13" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(3780, 241)
+normal_string = "Jumping down is actually OK!"
+alt_string = "...you can clealy see the path ahead."
+
+[node name="Sign14" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(4916, 337)
+monitoring = false
+normal_string = "Lmao"
+alt_string = "Your memory slowly returns to you. Just about a coupled hours ago, a tornado hit your town, leaving nothing but destruction in its path. You woke up feeling odd, likely carried away by the wind, and it all ended with a loud thud and a sharp pain. You went into coma for 3 hours before waking up, finding yourself in the middle of a fire-ravaged field."
+
+[node name="Sign15" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(5019, 49)
+monitoring = false
+normal_string = "..."
+alt_string = "What caused the fire? Maybe a lightning struck the field during the thunderstorm, igniting the dried grass field. The air is polluted with smoke, breathing is painful with both the smoke and the damaged ribcage. You keep pushing forwards, finding your way back to your hometown and find your parents."
+
+[node name="Sign16" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(5496, 385)
+normal_string = "This is the end of the second demo!"
+alt_string = "This is the end of the alternative route of the 2nd demo."
 
 [node name="Birds" type="Node2D" parent="."]
 
@@ -266,11 +307,20 @@ position = Vector2(1794, 511)
 [node name="Sign_Bird3" parent="Birds" instance=ExtResource("13_y3tjy")]
 position = Vector2(1906, 512)
 
+[node name="Sign_Bird4" parent="Birds" instance=ExtResource("13_y3tjy")]
+position = Vector2(4003, 225)
+
+[node name="Sign_Bird5" parent="Birds" instance=ExtResource("13_y3tjy")]
+position = Vector2(3493, 267)
+
+[node name="Sign_Bird6" parent="Birds" instance=ExtResource("13_y3tjy")]
+position = Vector2(3652, 231)
+
 [node name="Killzone" type="Area2D" parent="."]
-position = Vector2(442, 514)
+position = Vector2(447, 691)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
-position = Vector2(3, 160)
+position = Vector2(5, 32)
 shape = SubResource("WorldBoundaryShape2D_mvbh2")
 
 [node name="Timer" type="Node" parent="."]

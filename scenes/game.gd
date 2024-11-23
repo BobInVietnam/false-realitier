@@ -2,7 +2,7 @@ extends Node
 
 @onready var tilemap: Node2D = $Tilemap
 @onready var frab: CharacterBody2D = $Frab
-@onready var parallax_2d: Parallax2D = $Parallax2D
+@onready var sprite_2d: Sprite2D = $Parallax2D/Sprite2D
 @onready var signs: Node2D = $Signs
 @onready var hurt_timer: Timer = $Timer/HurtTimer
 @onready var pill_timer: Timer = $Timer/PillTimer
@@ -35,15 +35,16 @@ func take_pill() -> void:
 	bgm.stop();
 	tilemap.get_child(1).visible = false;
 	tilemap.get_child(0).visible = true;
-	parallax_2d.visible = false;
-	frab.set_p_state(1)
+	sprite_2d.visible = false;
+	if !frab.is_down():
+		frab.set_p_state(1)
 	for sign in signs.get_children():
 		if sign is Sign:
 			sign.get_node("Real").visible = true;
 			sign.get_node("Normal").visible = false;
 	animation_player.play("flash");
 	print("Pilled")
-	if use_count >= 1:
+	if use_count > 1:
 		pill_timer.start(pill_time);
 	use_count -= 1;
 	pill_time += 4;
@@ -53,8 +54,9 @@ func wear_out_pill() -> void:
 	bgm.play();
 	tilemap.get_child(0).visible = false;
 	tilemap.get_child(1).visible = true;
-	parallax_2d.visible = true;
-	frab.set_p_state(0)
+	sprite_2d.visible = true;
+	if !frab.is_down():
+		frab.set_p_state(0)
 	for sign in signs.get_children():
 		if sign is Sign:
 			sign.get_node("Real").visible = false;
