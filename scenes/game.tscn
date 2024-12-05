@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dlntpm6g874d5"]
+[gd_scene load_steps=36 format=3 uid="uid://dlntpm6g874d5"]
 
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_1d2ei"]
 [ext_resource type="PackedScene" uid="uid://dloqxds0o1xhx" path="res://scenes/frab.tscn" id="1_x22vj"]
@@ -17,9 +17,11 @@
 [ext_resource type="AudioStream" uid="uid://du8pep84d00la" path="res://atmospheric-metallic-swipe-19-196792.mp3" id="14_6wv8t"]
 [ext_resource type="AudioStream" uid="uid://g3hhxwwi0cm8" path="res://reverse-cymbal-swell-3-185073.mp3" id="15_4f44k"]
 [ext_resource type="AudioStream" uid="uid://chsujyr5s8b40" path="res://analog-appliance-button-15-186961.mp3" id="15_6gefo"]
+[ext_resource type="FontFile" uid="uid://dp13jdqosypj5" path="res://PixelOperator8.ttf" id="15_56llx"]
 [ext_resource type="AudioStream" uid="uid://44wvyjptyjao" path="res://baby-squeak-toy-2-183912.mp3" id="17_hla1j"]
 [ext_resource type="AudioStream" uid="uid://bh7ohtlnrgvlt" path="res://90s-game-ui-6-185099.mp3" id="18_f8n3q"]
-[ext_resource type="AudioStream" uid="uid://b2aksdur61iem" path="res://time_for_adventure.mp3" id="18_mrv6l"]
+[ext_resource type="AudioStream" uid="uid://cj2mun4radhtq" path="res://broken-9665.mp3" id="21_lwmlp"]
+[ext_resource type="AudioStream" uid="uid://dve04h4ruxrc8" path="res://upbeat-journeys-241829.mp3" id="22_tssir"]
 
 [sub_resource type="Animation" id="Animation_vxajj"]
 length = 0.001
@@ -46,6 +48,30 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Label:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:z_index")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_5dwkp"]
@@ -76,6 +102,46 @@ tracks/1/keys = {
 "args": [],
 "method": &"wear_out_pill"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_amgn6"]
+resource_name = "ending_0"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(0.899258, 0.899258, 0.899258, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Label:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(8),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:z_index")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [30]
 }
 
 [sub_resource type="Animation" id="Animation_c0qva"]
@@ -126,12 +192,16 @@ tracks/1/keys = {
 _data = {
 "RESET": SubResource("Animation_vxajj"),
 "end_pill": SubResource("Animation_5dwkp"),
+"ending_0": SubResource("Animation_amgn6"),
 "flash": SubResource("Animation_c0qva"),
 "start_pill": SubResource("Animation_ujsby")
 }
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mvbh2"]
 distance = 1.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hofg1"]
+size = Vector2(64, 63)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uo3yf"]
 atlas = ExtResource("7_dpsoa")
@@ -149,6 +219,11 @@ region = Rect2(0, 32, 32, 32)
 atlas = ExtResource("13_xjn6n")
 region = Rect2(10, 11, 1, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_jddtd"]
+font = ExtResource("15_56llx")
+font_size = 32
+font_color = Color(0.000693898, 0.000693898, 0.000693898, 1)
+
 [node name="Game" type="Node"]
 script = ExtResource("1_1d2ei")
 
@@ -160,7 +235,7 @@ libraries = {
 
 [node name="Frab" parent="." instance=ExtResource("1_x22vj")]
 z_index = 10
-position = Vector2(5297, 357)
+position = Vector2(213, 579)
 
 [node name="Camera2D" type="Camera2D" parent="Frab"]
 offset = Vector2(0, -32)
@@ -207,6 +282,9 @@ position = Vector2(2356, 481)
 [node name="Checkpoint4" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
 position = Vector2(3476, 273)
 
+[node name="Checkpoint6" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
+position = Vector2(6511, 113)
+
 [node name="Checkpoint5" parent="Checkpoints" instance=ExtResource("5_kxj2a")]
 position = Vector2(5205, 353)
 
@@ -215,7 +293,7 @@ z_index = 7
 
 [node name="Sign" parent="Signs" instance=ExtResource("6_lag7p")]
 position = Vector2(260, 592)
-normal_string = "Hey child! You just woke up right? It's time to explore the world. You have a piece of paper to help you with the journey. Read it. Touch the picnic table to setup a checkpoint for you. Good luck!"
+normal_string = "Hello child! You just woke up, right? It's time to go home now. You have a piece of paper for instructions. Read it. Also, the picnic table will serve as your checkpoint."
 alt_string = "You woke up. A faint headache knocks you out of the sleepy feeling. What you are seeing is reality. Hardship is ahead, but you feel like you must go. "
 
 [node name="Sign2" parent="Signs" instance=ExtResource("6_lag7p")]
@@ -270,7 +348,6 @@ alt_string = "You saw burning debris. Of course you wouldn't touch that."
 
 [node name="Sign12" parent="Signs" instance=ExtResource("6_lag7p")]
 position = Vector2(4077, 145)
-monitoring = false
 normal_string = "Hehe,  you got here, but what else can you do?"
 alt_string = "You remembered. You have always been seeing things that are not real, due to a slight abnomality in your brain. Even things that can hurt you don't seem that dangerous anymore, and you hurt yourself time to time. Your perents were concerned, and they brought you to the doctor, who gave you the pill bottle to ease the hallucination. Since then, it has become a part of you."
 
@@ -281,20 +358,38 @@ alt_string = "...you can clealy see the path ahead."
 
 [node name="Sign14" parent="Signs" instance=ExtResource("6_lag7p")]
 position = Vector2(4916, 337)
-monitoring = false
 normal_string = "Lmao"
 alt_string = "Your memory slowly returns to you. Just about a coupled hours ago, a tornado hit your town, leaving nothing but destruction in its path. You woke up feeling odd, likely carried away by the wind, and it all ended with a loud thud and a sharp pain. You went into coma for 3 hours before waking up, finding yourself in the middle of a fire-ravaged field."
 
 [node name="Sign15" parent="Signs" instance=ExtResource("6_lag7p")]
 position = Vector2(5019, 49)
-monitoring = false
 normal_string = "..."
 alt_string = "What caused the fire? Maybe a lightning struck the field during the thunderstorm, igniting the dried grass field. The air is polluted with smoke, breathing is painful with both the smoke and the damaged ribcage. You keep pushing forwards, finding your way back to your hometown and find your parents."
 
 [node name="Sign16" parent="Signs" instance=ExtResource("6_lag7p")]
-position = Vector2(5496, 385)
-normal_string = "This is the end of the second demo!"
-alt_string = "This is the end of the alternative route of the 2nd demo."
+position = Vector2(5369, 385)
+normal_string = "Beware of spiky bushes!"
+alt_string = "You feel like your adventure is nearing its end."
+
+[node name="Sign18" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(5824, 385)
+normal_string = "Invisible tiles?  "
+alt_string = "But...Should you really get back under this condition?"
+
+[node name="Sign17" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(6317, 209)
+normal_string = "No more hint for you!"
+alt_string = "..."
+
+[node name="Sign19" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(7189, 513)
+normal_string = "Congratulation! You got home! Now get inside, your friends and parents are waiting for you. You can already smell the freshly baked bread already, so don't keep them waiting."
+alt_string = "...it is a terrible sight. You can feel your knees weaken, seeing that your only place has been reduced to rubbles. Your head starts to hurt crazily, but you must find your parents. You slowly walk towards the burning debris pile, hoping to see at least something..."
+
+[node name="Sign20" parent="Signs" instance=ExtResource("6_lag7p")]
+position = Vector2(6452, 465)
+normal_string = "Why here? You cannot return, there's no exit."
+alt_string = "You remember, once you stumbled upon a piece of paper on the table. There is something related to the hospital you went to, and the word \"tumour\" or something is written on one of the lines, underscored red. Apparently it is what made your parents sad upon receiving that from the doctor?"
 
 [node name="Birds" type="Node2D" parent="."]
 
@@ -316,12 +411,24 @@ position = Vector2(3493, 267)
 [node name="Sign_Bird6" parent="Birds" instance=ExtResource("13_y3tjy")]
 position = Vector2(3652, 231)
 
+[node name="Sign_Bird7" parent="Birds" instance=ExtResource("13_y3tjy")]
+position = Vector2(5315, 382)
+
+[node name="Sign_Bird8" parent="Birds" instance=ExtResource("13_y3tjy")]
+position = Vector2(5388, 303)
+
 [node name="Killzone" type="Area2D" parent="."]
 position = Vector2(447, 691)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Killzone"]
 position = Vector2(5, 32)
 shape = SubResource("WorldBoundaryShape2D_mvbh2")
+
+[node name="Endgame" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Endgame"]
+position = Vector2(7292, 480.5)
+shape = SubResource("RectangleShape2D_hofg1")
 
 [node name="Timer" type="Node" parent="."]
 
@@ -448,6 +555,28 @@ value = 100.0
 nine_patch_stretch = true
 texture_progress = SubResource("AtlasTexture_gr1ev")
 
+[node name="Label" type="Label" parent="UI"]
+visible = false
+z_index = 100
+offset_left = 263.0
+offset_top = 179.0
+offset_right = 1059.0
+offset_bottom = 526.0
+text = "Take the Pill...?
+
+A game by Bob In Vietnam
+For 2D Game Jam #2
+
+Programming: Bob In Vietanm
+Artwork: Bob In Vietnam
+SFX: floraphonic on Pixabay
+Music: Clavier-Music on Pixabay
+Defekt_Maschine on Pixabay
+"
+label_settings = SubResource("LabelSettings_jddtd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Sound" type="Node" parent="."]
 
 [node name="StartEffect" type="AudioStreamPlayer" parent="Sound"]
@@ -470,8 +599,12 @@ bus = &"SFX"
 stream = ExtResource("18_f8n3q")
 bus = &"SFX"
 
+[node name="BGM2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("21_lwmlp")
+bus = &"Music"
+
 [node name="BGM" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("18_mrv6l")
+stream = ExtResource("22_tssir")
 autoplay = true
 bus = &"Music"
 
@@ -479,6 +612,7 @@ bus = &"Music"
 [connection signal="isHurt" from="Frab" to="." method="_on_frab_is_hurt"]
 [connection signal="set_checkpoint" from="Frab" to="." method="_on_frab_set_checkpoint"]
 [connection signal="body_entered" from="Killzone" to="Frab" method="_on_killzone_body_entered"]
+[connection signal="body_entered" from="Endgame" to="." method="_on_endgame_body_entered"]
 [connection signal="timeout" from="Timer/HurtTimer" to="." method="_on_hurt_timer_timeout"]
 [connection signal="timeout" from="Timer/PillTimer" to="." method="_on_pill_timer_timeout"]
 [connection signal="mouse_entered" from="UI/PillButton" to="UI" method="_on_pill_button_mouse_entered"]

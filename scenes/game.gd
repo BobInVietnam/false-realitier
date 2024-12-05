@@ -11,6 +11,7 @@ extends Node
 @onready var hurt: AudioStreamPlayer = $Sound/Hurt
 @onready var checkpoint_checked: AudioStreamPlayer = $Sound/CheckpointChecked
 @onready var bgm: AudioStreamPlayer = $BGM
+@onready var bgm_2: AudioStreamPlayer = $BGM2
 
 signal pill_number_update(pill_number: int)
 
@@ -33,6 +34,7 @@ func _process(delta: float) -> void:
 
 func take_pill() -> void:
 	bgm.stop();
+	bgm_2.play();
 	tilemap.get_child(1).visible = false;
 	tilemap.get_child(0).visible = true;
 	sprite_2d.visible = false;
@@ -52,6 +54,7 @@ func take_pill() -> void:
 	
 func wear_out_pill() -> void:
 	bgm.play();
+	bgm_2.stop();
 	tilemap.get_child(0).visible = false;
 	tilemap.get_child(1).visible = true;
 	sprite_2d.visible = true;
@@ -84,3 +87,6 @@ func _on_frab_set_checkpoint(position: Vector2) -> void:
 	checkpoint = position;
 	checkpoint_checked.play();
 	print("Checkpoint saved")
+
+func _on_endgame_body_entered(body: Node2D) -> void:
+	animation_player.play("ending_0");
